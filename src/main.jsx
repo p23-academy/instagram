@@ -6,6 +6,7 @@ import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import Login, {loginAction} from "./ui/login/Login.jsx";
 import Profile, {profileLoader} from "./ui/profile/Profile.jsx";
 import Image, {imageLoader} from "./ui/profile/images/Image.jsx";
+import './data/auth/firebase.js'
 
 const router = createBrowserRouter([
   {

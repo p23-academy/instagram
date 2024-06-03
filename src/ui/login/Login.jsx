@@ -1,22 +1,16 @@
 import {Form, redirect} from "react-router-dom";
+import {verifyLogin} from "../../data/auth/authRepo.js";
 
 export const loginAction = async ({ request }) => {
   const formData = await request.formData()
   const username = formData.get("username")
   const password = formData.get("password")
-  const id = verifyLogin(username, password)
+  const id = await verifyLogin(username, password)
   if (id) {
     return redirect(`/profile/${id}`)
   } else {
     return redirect(`/`)
   }
-}
-
-const verifyLogin = (username, password) => {
-  if (username === "admin" && password === "admin") {
-    return "admin"
-  }
-  return null
 }
 
 const Login = () => {

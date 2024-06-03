@@ -1,15 +1,22 @@
-import {Link, Outlet, useLoaderData} from "react-router-dom";
+import {Link, Outlet, redirect, useLoaderData} from "react-router-dom";
 import {Masonry} from "@mui/lab";
-import {findUserById} from "../../data/profile/profileRepo.js";
+import {findUserById} from "../../data/user/userRepo.js";
+import {isUserAuthenticated} from "../../data/auth/authRepo.js";
+import {findImagesByUserId} from "../../data/images/imagesRepo.js";
 
 export const profileLoader = async ({params}) => {
   const id = params.id;
+  const isAuthenticated = await isUserAuthenticated()
+  if (!isAuthenticated) {
+    return redirect(`/login`)
+  }
   const user = await findUserById(id)
-  return {user}
+  const images = await findImagesByUserId(id)
+  return {user, images}
 }
 
 const Profile = () => {
-  const {user} = useLoaderData()
+  const {user, images} = useLoaderData()
 
   return (
     <div className={"h-screen w-screen flex flex-col items-center"}>
@@ -19,7 +26,7 @@ const Profile = () => {
       <h1 className={"text-6xl my-12"}>{user.name}</h1>
       <div className={"w-8/12"}>
         <Masonry columns={3} spacing={2}>
-          {user.images.map((image, index) => (
+          {images.map((image, index) => (
             <Link to={image.id} key={index}>
               <div className={"hover:scale-110 transition"}>
                 <img src={image.url}/>

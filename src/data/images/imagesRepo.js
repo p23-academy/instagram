@@ -1,5 +1,22 @@
-import {imagesData} from "./imagesData.js";
+import {collection, doc, getDoc, getDocs, query, where} from "firebase/firestore";
+import {db} from "../auth/firebase.js";
 
 export const findImageById = async (id) => {
-  return imagesData.find(i => i.id === id)
+  const imageRef = doc(db, "images", id)
+  const imageSnap = await getDoc(imageRef);
+  if (imageSnap.exists()) {
+    return imageSnap.data()
+  } else {
+    return null
+  }
+}
+
+export const findImagesByUserId = async (userId) => {
+  const imagesRef = collection(db, "images");
+  const q = query(imagesRef, where("user", "==", userId));
+  const querySnapshot = await getDocs(q);
+  return querySnapshot.docs.map(doc => ({
+    id: doc.id,
+    ...doc.data()
+  }))
 }
