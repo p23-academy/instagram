@@ -1,7 +1,6 @@
-import './App.css'
 import {Link} from "react-router-dom";
 
-function App() {
+function Home() {
 
   return (
     <div className={"w-screen h-screen flex flex-col justify-center items-center"}>
@@ -13,4 +12,4 @@ function App() {
   )
 }
 
-export default App
+export default Home

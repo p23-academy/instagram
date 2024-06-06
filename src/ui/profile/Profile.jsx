@@ -1,15 +1,10 @@
-import {Link, Outlet, redirect, useLoaderData} from "react-router-dom";
+import {Link, Outlet, useLoaderData} from "react-router-dom";
 import {Masonry} from "@mui/lab";
 import {findUserById} from "../../data/user/userRepo.js";
-import {isUserAuthenticated} from "../../data/auth/authRepo.js";
 import {findImagesByUserId} from "../../data/images/imagesRepo.js";
 
 export const profileLoader = async ({params}) => {
   const id = params.id;
-  const isAuthenticated = await isUserAuthenticated()
-  if (!isAuthenticated) {
-    return redirect(`/login`)
-  }
   const user = await findUserById(id)
   const images = await findImagesByUserId(id)
   return {user, images}

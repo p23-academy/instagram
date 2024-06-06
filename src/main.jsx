@@ -1,17 +1,19 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
+import Home from './Home.jsx'
 import './index.css'
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import Login, {loginAction} from "./ui/login/Login.jsx";
 import Profile, {profileLoader} from "./ui/profile/Profile.jsx";
 import Image, {imageLoader} from "./ui/profile/images/Image.jsx";
-import './data/auth/firebase.js'
+import './data/firebase/firebase.js'
+import App, {appLoader} from "./ui/app/App.jsx";
+import NewImage, {uploadAction} from "./ui/new/NewImage.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App/>,
+    element: <Home/>,
   },
   {
     path: "/login",
@@ -19,14 +21,26 @@ const router = createBrowserRouter([
     element: <Login/>,
   },
   {
-    path: "/profile/:id",
-    loader: profileLoader,
-    element: <Profile/>,
+    path: "/app",
+    loader: appLoader,
+    element: <App/>,
     children: [
       {
-        path: "/profile/:id/:image",
-        loader: imageLoader,
-        element: <Image/>,
+        path: "/app/profile/:id",
+        loader: profileLoader,
+        element: <Profile/>,
+        children: [
+          {
+            path: "/app/profile/:id/:image",
+            loader: imageLoader,
+            element: <Image/>,
+          }
+        ]
+      },
+      {
+        path: "/app/new",
+        element: <NewImage/>,
+        action: uploadAction
       }
     ]
   },

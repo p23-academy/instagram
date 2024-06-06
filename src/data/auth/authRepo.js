@@ -12,3 +12,7 @@ export const verifyLogin = async (username, password) => {
 export const isUserAuthenticated = async () => {
   return getAuth().currentUser !== null
 }
+
+export const getCurrentUserId = async () => {
+  return getAuth().currentUser.uid
+}
