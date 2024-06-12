@@ -1,8 +1,9 @@
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import {signInWithEmailAndPassword} from "firebase/auth";
+import {auth} from "../firebase/firebase.js";
 
 export const verifyLogin = async (username, password) => {
   try {
-    const userCred = await signInWithEmailAndPassword(getAuth(), `${username}@p23.io`, password)
+    const userCred = await signInWithEmailAndPassword(auth, `${username}@p23.io`, password)
     return userCred.user.uid
   } catch (e) {
     console.log(e)
@@ -10,9 +11,9 @@ export const verifyLogin = async (username, password) => {
 }
 
 export const isUserAuthenticated = async () => {
-  return getAuth().currentUser !== null
+  return auth.currentUser !== null
 }
 
 export const getCurrentUserId = async () => {
-  return getAuth().currentUser.uid
+  return auth.currentUser.uid
 }

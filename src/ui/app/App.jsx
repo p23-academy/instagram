@@ -5,7 +5,7 @@ import Topbar from "../topbar/Topbar.jsx";
 export const appLoader = async () => {
   const isAuthenticated = await isUserAuthenticated()
   if (!isAuthenticated) {
-    // return redirect(`/login`)
+    return redirect(`/login`)
   }
   return {}
 }
